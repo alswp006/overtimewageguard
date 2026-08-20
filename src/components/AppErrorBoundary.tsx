@@ -28,8 +28,7 @@ export default class AppErrorBoundary extends Component<
     return { hasError: true };
   }
 
-  // @AI:NOTE 토스 검수는 콘솔 에러 0개를 요구한다 → console.error로 다시 던지지 않는다.
-  componentDidCatch(_error: Error, _info: ErrorInfo) {
+  componentDidCatch() {
     // 화면 단위 격리가 목적이므로 여기서는 상태만 유지한다.
   }
 
