@@ -38,9 +38,12 @@ export type Settings = {
 
 ## Existing Codebase (import and use these — do NOT recreate)
 ### File Tree (src/)
+  App.tsx
   components/
+    AppErrorBoundary.tsx
     BottomCTA.tsx
     Card.tsx
+    EmptyState.tsx
     PageShell.tsx
     ScreenScaffold.tsx
     StateView.tsx
@@ -52,44 +55,59 @@ export type Settings = {
     calc.ts
     format.ts
     storage.ts
+    theme.ts
     types.ts
     validation.ts
+  main.tsx
   pages/
     HomePage.tsx
     RecordsPage.tsx
     ReportPage.tsx
+  router.tsx
 
 ### Exports (src/lib/)
 - calc.ts: export type DayBreakdown =; export type MonthlySummary =; export function computeDay( record?: WorkRecord | null, settings?: Settings | null ): DayBreakdown | null; export function computeMonthlySummary( records?: WorkRecord[] | null, settings?: Settings | null ): MonthlySummary; export function findActiveRecord( records: WorkRecord[] | null | undefined, date: string ): WorkRecord | null; export function generateRecordId(date: string, records?: WorkRecord[] | null): string
 - format.ts: export function formatWon(amount: number): string; export function formatHours(minutes: number): string
 - storage.ts: export function safeParse<T>( key: string, fallback: T, normalize?: (item: any) => any ): T; export function getRecords(): WorkRecord[]; export function setRecords(records: WorkRecord[]): void; export function getPayslips(): PayslipCheck[]; export function setPayslips(payslips: PayslipCheck[]): void; export function getSettings(): Settings; export function setSettings(settings: Partial<Settings>): void; export function getMeta(): Meta
+- theme.ts: export const tdsColor =
 - types.ts: export type PayType = "hourly" | "salary"; export type WorkRecord =; export type PayslipCheck =; export type Settings =
 - validation.ts: export type ValidationResult =; export function validateHourlyWage(value: number): ValidationResult; export function validateMonthlySalary(value: number): ValidationResult; export function validateMonthlyStandardHours(value: number): ValidationResult; export function validateBreakMinutes(value: number): ValidationResult; export function sanitizeMonthlyStandardHours(value: number): number
 
 ### Components (src/components/)
 - BottomCTA.tsx: SubmitFooter
 - Card.tsx: Card
+- EmptyState.tsx: EmptyState
 - PageShell.tsx: PageShell
 - ScreenScaffold.tsx: ScreenScaffold
-- StateView.tsx: EmptyState
 
 ### Module Dependencies (import graph)
   lib/calc.ts → imports: lib/types, lib/validation
   lib/storage.ts → imports: lib/types
-  pages/HomePage.tsx → imports: components/ScreenScaffold, components/Card, hooks/useRecords, hooks/useSettings, lib/calc, lib/format
-  pages/RecordsPage.tsx → imports: components/ScreenScaffold, components/Card, components/BottomCTA, components/StateView, hooks/useRecords, lib/calc, lib/types
-  pages/ReportPage.tsx → imports: components/ScreenScaffold, components/Card, components/StateView, hooks/useRecords, hooks/useSettings, lib/calc, lib/format
+  pages/HomePage.tsx → imports: components/ScreenScaffold, components/Card, hooks/useRecords, hooks/useSettings, lib/calc, lib/format, lib/theme
+  pages/RecordsPage.tsx → imports: components/ScreenScaffold, components/Card, components/BottomCTA, components/EmptyState, hooks/useRecords, lib/calc, lib/types, lib/theme
+  pages/ReportPage.tsx → imports: components/ScreenScaffold, components/Card, components/EmptyState, hooks/useRecords, hooks/useSettings, lib/calc, lib/format, lib/theme
 CRITICAL: Before creating any new function, type, or component, check the list above. If something similar exists, import and use it.
 
 ## Already Implemented (do NOT duplicate or overwrite)
 - heal-1-02: 계산·리스트 로직의 빈/부분 데이터 방어 처리 (files: src/lib/calc.ts, src/lib/validation.ts, src/pages/RecordsPage.tsx, src/pages/ReportPage.tsx, src/pages/HomePage.tsx)
+- heal-1-03: 라우트 단위 ErrorBoundary + 빈 상태 컴포넌트 (files: src/components/AppErrorBoundary.tsx, src/components/EmptyState.tsx, src/App.tsx, src/router.tsx)
 
 ## Available exports from existing files
+// src/App.tsx
+export default function App() {
+
+// src/components/AppErrorBoundary.tsx
+export default class AppErrorBoundary extends Component<
+
 // src/components/BottomCTA.tsx
 export function SubmitFooter({ children, onClick, disabled }: SubmitFooterProps) {
 
 // src/components/Card.tsx
 export default function Card({ children, testId }: CardProps) {
+
+// src/components/EmptyState.tsx
+export function EmptyState({ title, description, action, testId }: EmptyStateProps) {
+export default EmptyState;
 
 // src/components/PageShell.tsx
 export default function PageShell({ children }: PageShellProps) {
@@ -98,16 +116,7 @@ export default function PageShell({ children }: PageShellProps) {
 export default function ScreenScaffold({ top, bottom, children }: ScreenScaffoldProps) {
 
 // src/components/StateView.tsx
-export function EmptyState({ title, description, action }: EmptyStateProps) {
-
-// src/hooks/usePayslips.ts
-export function usePayslips() {
-
-// src/hooks/useRecords.ts
-export function useRecords() {
-
-// src/hooks/useSettings.ts
-export function useSettings() {
+export { EmptyState, default } from "@/components/EmptyState";
 
 // src/lib/calc.ts
 export type DayBreakdown = {
@@ -121,16 +130,8 @@ export function generateRecordId(date: string, records?: WorkRecord[] | null): s
 export function formatWon(amount: number): string {
 export function formatHours(minutes: number): string {
 
-// src/lib/storage.ts
-export function safeParse<T>(
-export function getRecords(): WorkRecord[] {
-export function setRecords(records: WorkRecord[]): void {
-export function getPayslips(): PayslipCheck[] {
-export function setPayslips(payslips: PayslipCheck[]): void {
-export function getSettings(): Settings {
-export function setSettings(settings: Partial<Settings>): void {
-export function getMeta(): Meta {
-export function setMeta(meta: Partial<Meta>): void {
+// src/lib/theme.ts
+export const tdsColor = {
 
 // src/lib/types.ts
 export type PayType = "hourly" | "salary";
@@ -142,7 +143,13 @@ export type Settings = {
 export type ValidationResult = { valid: boolean; message?: string };
 export function validateHourlyWage(value: number): ValidationResult {
 export function validateMonthlySalary(value: number): ValidationResult {
-export function validateMonthlySta
+export function validateMonthlyStandardHours(value: number): ValidationResult {
+export function validateBreakMinutes(value: number): ValidationResult {
+export function sanitizeMonthlyStandardHours(value: number): number {
+
+// src/router.tsx
+export type AppRoute = {
+export const appRoutes: AppRoute[] = [
 
 ## Memory Index (자동 학습 — 힌트로만 사용, 실제 코드 확인 필수)
 
