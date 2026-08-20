@@ -56,6 +56,13 @@ export default function ReportPage() {
           right={<Paragraph typography="st3">{formatHours(summary.totalOvertimeMinutes)}</Paragraph>}
         />
       </Card>
+      {hasRecords ? (
+        <Card testId="report-nav-card">
+          <Button display="block" variant="weak" onClick={() => navigate("/")}>
+            홈으로
+          </Button>
+        </Card>
+      ) : null}
     </ScreenScaffold>
   );
 }

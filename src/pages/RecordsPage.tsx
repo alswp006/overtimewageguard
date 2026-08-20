@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
-import { ListRow, Paragraph, Top } from "@toss/tds-mobile";
+import { useNavigate } from "react-router-dom";
+import { Button, ListRow, Paragraph, Top } from "@toss/tds-mobile";
 import ScreenScaffold from "@/components/ScreenScaffold";
 import Card from "@/components/Card";
 import { SubmitFooter } from "@/components/BottomCTA";
@@ -8,9 +9,10 @@ import { useRecords } from "@/hooks/useRecords";
 import { findActiveRecord, generateRecordId } from "@/lib/calc";
 import type { WorkRecord } from "@/lib/types";
 import { tdsColor } from "@/lib/theme";
+import { getLocalDateString } from "@/lib/format";
 
 function todayDate(): string {
-  return new Date().toISOString().slice(0, 10);
+  return getLocalDateString();
 }
 
 function nowTime(): string {
@@ -19,6 +21,7 @@ function nowTime(): string {
 }
 
 export default function RecordsPage() {
+  const navigate = useNavigate();
   const { records, addRecord, updateRecord } = useRecords();
   const [today] = useState(() => todayDate());
 
@@ -55,6 +58,11 @@ export default function RecordsPage() {
         </SubmitFooter>
       }
     >
+      <Card testId="records-nav-card">
+        <Button display="block" variant="weak" onClick={() => navigate("/report")}>
+          급여 리포트 보기
+        </Button>
+      </Card>
       {sortedRecords.length === 0 ? (
         <EmptyState title="기록이 아직 없어요" description="출근 버튼을 눌러 첫 기록을 시작해요" />
       ) : (

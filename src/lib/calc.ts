@@ -1,5 +1,6 @@
 import type { WorkRecord, Settings } from "@/lib/types";
 import { sanitizeMonthlyStandardHours } from "@/lib/validation";
+import { getLocalMonthString } from "@/lib/format";
 
 export type DayBreakdown = {
   workedMinutes: number;
@@ -81,14 +82,19 @@ const EMPTY_SUMMARY: MonthlySummary = {
   dayCount: 0,
 };
 
-/** 빈/진행중 기록을 방어하며 완료된 기록만 합산한다. */
+/** 이번 달(로컬 기준) 완료된 기록만 방어적으로 합산한다 — "이번 달" 표시와 어긋나지 않도록 월 범위를 강제한다. */
 export function computeMonthlySummary(
   records?: WorkRecord[] | null,
   settings?: Settings | null
 ): MonthlySummary {
   if (!settings) return EMPTY_SUMMARY;
 
-  return (records ?? []).reduce((summary, record) => {
+  const currentMonth = getLocalMonthString();
+  const thisMonthRecords = (records ?? []).filter(
+    (record) => record && typeof record.date === "string" && record.date.startsWith(currentMonth)
+  );
+
+  return thisMonthRecords.reduce((summary, record) => {
     const breakdown = computeDay(record, settings);
     if (!breakdown) return summary;
     return {

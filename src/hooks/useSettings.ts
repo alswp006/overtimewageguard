@@ -8,8 +8,7 @@ export function useSettings() {
   const updateSettings = useCallback((patch: Partial<Settings>) => {
     setSettingsState((prev) => {
       const next = { ...prev, ...patch };
-      saveSettings(patch);
-      return next;
+      return saveSettings(patch) ? next : prev;
     });
   }, []);
 
