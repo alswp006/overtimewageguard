@@ -27,12 +27,14 @@ vi.mock("@toss/tds-mobile", () => {
     {
       get: (_target, prop) => {
         if (prop === "__esModule") return true;
+        if (prop === "then") return undefined;
         if (prop === "default") {
           return (props: any) => React.createElement("div", props, props?.children);
         }
         return (props: any) =>
           React.createElement("div", { "data-tds": String(prop) }, props?.children);
       },
+      has: () => true,
     }
   );
 });
