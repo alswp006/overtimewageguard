@@ -3,10 +3,11 @@ import { ListRow, Paragraph, Top } from "@toss/tds-mobile";
 import ScreenScaffold from "@/components/ScreenScaffold";
 import Card from "@/components/Card";
 import { SubmitFooter } from "@/components/BottomCTA";
-import { EmptyState } from "@/components/StateView";
+import EmptyState from "@/components/EmptyState";
 import { useRecords } from "@/hooks/useRecords";
 import { findActiveRecord, generateRecordId } from "@/lib/calc";
 import type { WorkRecord } from "@/lib/types";
+import { tdsColor } from "@/lib/theme";
 
 function todayDate(): string {
   return new Date().toISOString().slice(0, 10);
@@ -72,7 +73,7 @@ export default function RecordsPage() {
                     <Paragraph typography="st2" fontWeight="bold">
                       {record.date}
                     </Paragraph>
-                    <Paragraph typography="st4" color="#6b7684">
+                    <Paragraph typography="st4" color={tdsColor.textSecondary}>
                       {detail}
                     </Paragraph>
                   </div>

@@ -7,6 +7,7 @@ import { useRecords } from "@/hooks/useRecords";
 import { useSettings } from "@/hooks/useSettings";
 import { computeMonthlySummary } from "@/lib/calc";
 import { formatHours, formatWon } from "@/lib/format";
+import { tdsColor } from "@/lib/theme";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ export default function HomePage() {
   return (
     <ScreenScaffold top={<Top title="이번 달 초과근무수당" />}>
       <Card testId="home-summary-card">
-        <Paragraph typography="st3" color="#6b7684">
+        <Paragraph typography="st3" color={tdsColor.textSecondary}>
           이번 달 예상 급여
         </Paragraph>
         <Spacing size={4} />
@@ -26,7 +27,7 @@ export default function HomePage() {
           {formatWon(summary.totalWage)}
         </Paragraph>
         <Spacing size={4} />
-        <Paragraph typography="st4" color="#6b7684">
+        <Paragraph typography="st4" color={tdsColor.textSecondary}>
           초과근무 {formatHours(summary.totalOvertimeMinutes)} 포함
         </Paragraph>
       </Card>

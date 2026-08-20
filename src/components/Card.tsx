@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { tdsColor } from "@/lib/theme";
 
 type CardProps = {
   children: ReactNode;
@@ -13,7 +14,8 @@ export default function Card({ children, testId }: CardProps) {
         margin: "0 20px 12px",
         padding: 20,
         borderRadius: 16,
-        background: "#f8f9fa",
+        backgroundColor: tdsColor.surface,
+        color: tdsColor.text,
       }}
     >
       {children}

@@ -1,32 +1,3 @@
-import type { ReactNode } from "react";
-import { Paragraph, Spacing } from "@toss/tds-mobile";
-
-type EmptyStateProps = {
-  title: string;
-  description?: string;
-  action?: ReactNode;
-};
-
-export function EmptyState({ title, description, action }: EmptyStateProps) {
-  return (
-    <div style={{ padding: "56px 20px", textAlign: "center" }}>
-      <Paragraph typography="t4" fontWeight="bold" textAlign="center">
-        {title}
-      </Paragraph>
-      {description ? (
-        <>
-          <Spacing size={8} />
-          <Paragraph typography="st3" color="#6b7684" textAlign="center">
-            {description}
-          </Paragraph>
-        </>
-      ) : null}
-      {action ? (
-        <>
-          <Spacing size={16} />
-          {action}
-        </>
-      ) : null}
-    </div>
-  );
-}
+// 빈 상태 UI는 src/components/EmptyState.tsx 한 곳에만 있다.
+// 기존 import 경로(@/components/StateView)를 깨지 않기 위한 재수출.
+export { EmptyState, default } from "@/components/EmptyState";
