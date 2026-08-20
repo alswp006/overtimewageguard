@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, ListRow, Paragraph, Spacing, Top } from "@toss/tds-mobile";
+import { Button, IconButton, ListRow, Paragraph, Spacing, Top } from "@toss/tds-mobile";
 import ScreenScaffold from "@/components/ScreenScaffold";
 import Card from "@/components/Card";
 import EmptyState from "@/components/EmptyState";
@@ -19,7 +19,21 @@ export default function ReportPage() {
   const hasRecords = (records ?? []).length > 0;
 
   return (
-    <ScreenScaffold top={<Top title="급여 리포트" />}>
+    <ScreenScaffold
+      top={
+        <Top
+          title="급여 리포트"
+          right={
+            <IconButton
+              name="icon-setting-mono"
+              color={tdsColor.text}
+              aria-label="시급 설정"
+              onClick={() => navigate("/settings")}
+            />
+          }
+        />
+      }
+    >
       {!hasRecords ? (
         <EmptyState
           title="이번 달 근무 기록이 없어요"

@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, ListRow, Paragraph, Top } from "@toss/tds-mobile";
+import { Button, IconButton, ListRow, Paragraph, Top } from "@toss/tds-mobile";
 import ScreenScaffold from "@/components/ScreenScaffold";
 import Card from "@/components/Card";
 import { SubmitFooter } from "@/components/BottomCTA";
@@ -51,7 +51,19 @@ export default function RecordsPage() {
 
   return (
     <ScreenScaffold
-      top={<Top title="출퇴근 기록" />}
+      top={
+        <Top
+          title="출퇴근 기록"
+          right={
+            <IconButton
+              name="icon-setting-mono"
+              color={tdsColor.text}
+              aria-label="시급 설정"
+              onClick={() => navigate("/settings")}
+            />
+          }
+        />
+      }
       bottom={
         <SubmitFooter onClick={activeRecord ? handleClockOut : handleClockIn}>
           {activeRecord ? "퇴근 기록하기" : "출근 기록하기"}

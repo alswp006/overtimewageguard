@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Paragraph, Spacing, Top } from "@toss/tds-mobile";
+import { Button, IconButton, Paragraph, Spacing, Top } from "@toss/tds-mobile";
 import ScreenScaffold from "@/components/ScreenScaffold";
 import Card from "@/components/Card";
 import { useRecords } from "@/hooks/useRecords";
@@ -17,7 +17,21 @@ export default function HomePage() {
   const summary = useMemo(() => computeMonthlySummary(records, settings), [records, settings]);
 
   return (
-    <ScreenScaffold top={<Top title="이번 달 초과근무수당" />}>
+    <ScreenScaffold
+      top={
+        <Top
+          title="이번 달 초과근무수당"
+          right={
+            <IconButton
+              name="icon-setting-mono"
+              color={tdsColor.text}
+              aria-label="시급 설정"
+              onClick={() => navigate("/settings")}
+            />
+          }
+        />
+      }
+    >
       <Card testId="home-summary-card">
         <Paragraph typography="st3" color={tdsColor.textSecondary}>
           이번 달 예상 급여

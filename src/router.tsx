@@ -2,6 +2,7 @@ import type { ReactElement } from "react";
 import HomePage from "@/pages/HomePage";
 import RecordsPage from "@/pages/RecordsPage";
 import ReportPage from "@/pages/ReportPage";
+import SettingsPage from "@/pages/SettingsPage";
 
 export type AppRoute = {
   path: string;
@@ -13,4 +14,5 @@ export const appRoutes: AppRoute[] = [
   { path: "/", element: <HomePage /> },
   { path: "/records", element: <RecordsPage /> },
   { path: "/report", element: <ReportPage /> },
+  { path: "/settings", element: <SettingsPage /> },
 ];
